@@ -47,6 +47,7 @@ class HomePage extends StatelessWidget {
                 return Container(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   child: SearchBar(
+                    hintText: 'Search animals...',
                     onChanged: (value) {
                       context.read<AnimalsBloc>().add(FilterAnimals(value));
                     },
@@ -71,7 +72,10 @@ class HomePage extends StatelessWidget {
                         elevation: 2,
                         child: ListTile(
                           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          title: Text(animal.title.capitalize(), style: Theme.of(context).textTheme.titleMedium),
+                          title: Text(
+                            '${animal.title.capitalize()} (ID:${animal.id})',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
                           subtitle: animal.favoriteAt != null
                               ? Text('Favorited at: ${dateFormatter.format(animal.favoriteAt!.toLocal())}')
                               : null,

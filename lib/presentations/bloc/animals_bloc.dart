@@ -30,7 +30,16 @@ class AnimalsBloc extends Bloc<AnimalsEvent, AnimalsState> {
       final currentState = state as AnimalsLoaded;
       final updatedAnimals = currentState.animals.map((animal) {
         if (animal.id == event.animal.id) {
-          return animal.copyWith(isFavorite: !animal.isFavorite, favoriteAt: animal.isFavorite ? null : DateTime.now());
+          AnimalsModel updatedAnimal = animal.copyWith(
+            isFavorite: !animal.isFavorite,
+            favoriteAt: animal.isFavorite ? null : DateTime.now(),
+          );
+          if (updatedAnimal.isFavorite) {
+            animalServices.saveToSharedPreferences(updatedAnimal);
+          } else {
+            animalServices.removeFromSharedPreferences(updatedAnimal);
+          }
+          return updatedAnimal;
         }
         return animal;
       }).toList();
